@@ -108,9 +108,6 @@
       <div class="border-t border-gray-200"></div>
     </div>
   </div>
-  <!-- <div class="mt-2 text-center text-white">
-              <a class="w-32 mx-2" href="https://tailwindcss.com/">TailwindCSS</a>
-              <a class="w-32 mx-2" href="https://github.com/alpinejs/alpine">AlpineJS</a>
-            </div> -->
+  
   
 </div>

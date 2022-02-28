@@ -42,6 +42,10 @@
         {{ $slot }}
       </main>
     </div>
+    <div class="mt-2 text-center text-white">
+              <a class="w-32 mx-2 text-gray-900" target="_black" href="https://codesite.tech">Dev</a>
+              <a class="w-32 mx-2 text-gray-900" target="_black" href="https:/instagram.com/wuasimodo">wuasimodo</a>
+            </div>
   </div>
 </body>
 

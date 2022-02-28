@@ -19,22 +19,11 @@ Route::get('/', function () {
   return view('welcome');
 });
 
-Route::get('/reportes', function () {
-  return view('reportes');
-})->name('reportes');
-
-
-
-
-
-Route::get('/usuarios', function () {
-  return view('usuarios');
-})->name('usuarios');
 
 
 Route::group(['middleware' => 'auth'], function () {
   Route::view('/gracias', 'error.gracias')->name('gracias');
-  Route::view('/vista-previa', 'error.vistaP')->name('vista-previa');
+  Route::view('/vista-previa', 'error.basico')->name('vista-previa');
 
   // Route::get('/nuevoPaciente2', function () {
   //   return view('pacientes');
@@ -48,10 +37,18 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/condiciones', [CondicionController::class, 'index'])->name('condicion');
   Route::get('/condiciones/malFormacion', [CondicionController::class, 'malFormacion'])->name('malFormacion');
+
+  Route::get('/reportes', function () {
+    return view('error.basico');
+  })->name('reportes');
+  
+  Route::get('/usuarios', function () {
+    return view('error.basico');
+  })->name('usuarios');
+  Route::get('/dashboard', function () {
+    return view('dashboard');
+  })->middleware(['auth'])->name('dashboard');
 });
 
-Route::get('/dashboard', function () {
-  return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
