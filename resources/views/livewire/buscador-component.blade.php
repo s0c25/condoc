@@ -19,12 +19,12 @@
             <option>10</option>
             <option>20</option>
         </select>
-        <select class="text-gray-400 appearance-none border-none 
+        <!-- <select class="text-gray-400 appearance-none border-none 
         inline-block py-3 pl-3 pr-8 rounded leading-tight" wire:model="malformaciones">
         @foreach($malformacion as $malforma)
             <option class="pt-6" value={{$malforma->id}}>{{$malforma->name}}</option>
         @endforeach
-            </select>
+            </select> -->
         </div>
     </div>
    
@@ -43,7 +43,7 @@
                         </th>
                         <th
                             class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Cantidad Malformaciones
+                            Fecha Consulta
                         </th>
                         <th
                             class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -72,11 +72,7 @@
                         </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p class="text-gray-900 whitespace-no-wrap">
-                            @if ($cantMalformacion == '0')
-                              Escribe la cedula
-                              @else
-                              {{$cantMalformacion}}
-                              @endif
+                            {{$paciente->created_at}}
                             </p>
                         </td>
                         <td class="px-5 py-1 border-b border-gray-200 bg-white text-sm">

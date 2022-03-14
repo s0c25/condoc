@@ -112,7 +112,7 @@ class ValidPacienteForm extends Component
   public function mount($selectEstado = null)
   {
   
-    $this->estado_civil = ['Soltera','Casada','Divorsiada','Viuda'];
+    $this->estado_civil = ['Soltera','Casada','Divorciada','Viuda'];
 
   }
 

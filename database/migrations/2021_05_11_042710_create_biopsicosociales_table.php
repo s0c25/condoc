@@ -15,8 +15,8 @@ class CreateBiopsicosocialesTable extends Migration
   {
     Schema::create('biopsicosociales', function (Blueprint $table) {
       $table->id();
-      $table->enum("tabaco", ["Si","No"]);
-      $table->enum("alcohol", ["Si","No"]);
+      $table->bigInteger('tabaco')->unsigned();
+      $table->bigInteger('alcohol')->unsigned();
       $table->string('observacion');
       $table->timestamps();
     });

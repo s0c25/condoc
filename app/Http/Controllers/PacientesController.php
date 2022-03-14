@@ -14,12 +14,88 @@ use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use App\Models\sustancias_toxicas_has_paciente;
 use App\Models\otros_sustancias_has_paciente;
-use App\Models\mal_formaciones_has_paciente;
+use App\Models\enfermedad_cronica_paciente;
+use App\Models\malformacion_paciente;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
+use PDF;
+use Sabberworm\CSS\Property\Charset;
 
 class PacientesController extends Controller
 {
+
+  public function pdfcreate(Request $request)
+  {
+    $hola=$request->mff;
+
+    $collection = collect($hola);
+
+
+    $query=
+    malformacion_paciente::whereIn
+    ('malformacion_pacientes.nombremalformacion_id', $request->mff)
+          ->LEFTJOIN('mal_formaciones AS mf', 
+          'malformacion_pacientes.nombremalformacion_id', '=', 'mf.id_nombremalformacion')
+          ->LEFTJOIN('formaciones AS f', 
+          'f.id', '=', 'mf.formacione_id')
+          ->LEFTJOIN('nombremalformacions AS nm', 
+          'nm.id', '=', 'mf.id_nombremalformacion')
+          ->select('f.name as formacionName','nm.name as nombreMal','mf.descripcion as formo')
+          ->get();
+
+          $enfermedades = $query->countBy(function ($item) {
+            return $item['formo'];
+          });
+
+
+          
+
+          $malfomarcion = $query->countBy(function ($item) {
+              return $item['nombreMal'];
+            });
+            
+            return view('livewire.ttfabiola', compact('enfermedades','malfomarcion')); 
+
+            
+  }
+  public function pdfadd(Request $request)
+  {
+    $hola=$request->mff;
+
+    $collection = collect($hola);
+
+
+    $query=
+    malformacion_paciente::whereIn
+    ('malformacion_pacientes.nombremalformacion_id', $request->mff)
+          ->LEFTJOIN('mal_formaciones AS mf', 
+          'malformacion_pacientes.nombremalformacion_id', '=', 'mf.id_nombremalformacion')
+          ->LEFTJOIN('formaciones AS f', 
+          'f.id', '=', 'mf.formacione_id')
+          ->LEFTJOIN('nombremalformacions AS nm', 
+          'nm.id', '=', 'mf.id_nombremalformacion')
+          ->select('f.name as formacionName','nm.name as nombreMal','mf.descripcion as formo')
+          ->get();
+
+          $enfermedades = $query->countBy(function ($item) {
+            return $item['formo'];
+          });
+
+
+          
+
+          $malfomarcion = $query->countBy(function ($item) {
+              return $item['nombreMal'];
+            });
+            
+
+            return PDF::loadView('pdf.fabiola', compact('enfermedades','malfomarcion'))
+            ->setOptions(['defaultFont' => 'Courier'])
+            ->setPaper('a4', 'landscape')
+            ->stream('archivo.pdf');
+
+                
+  }
 
   /**
    * Display a listing of the resource.
@@ -51,6 +127,8 @@ class PacientesController extends Controller
    */
   public function store(Request $request)
   {
+
+    // dd($request->all());
 
     $rules = [
       'name' => ['required'],
@@ -126,6 +204,7 @@ class PacientesController extends Controller
 
     $this->validate($request, $rules, $messages);
 
+
       $array1 = $request->droga;
       
       $drogas = explode(",", $array1);
@@ -171,15 +250,12 @@ class PacientesController extends Controller
         'cedula' => $request['cedula'],
         'lastname' => $request['lastname'],
         'ocupacion' => $request['ocupacion'],
-
         'edoCivil' => $request['edoCivil'],
         'direccion' => $request['direccion'],
-
         'id_ciudad' => $request['id_ciudad'],
         'id_estado' => $request['id_estado'],
         'phone' => $request['phone'],
         'edad' => $request['edad'],
-        'id_enfermedadCronica' => $request['enfemedadC'],
         'id_ginecoobstetrico' => $idGinecoobstetrico->id,
         'id_embarazo' => $idPacienteEmbarazo->id,
         'id_biopsicosociales' => $idBiopsicosociales->id,
@@ -208,18 +284,18 @@ class PacientesController extends Controller
       // $idPacientes->malFormacione()->sync($malformacion);
 
 
-      $malformacions = $request->malformacion;
+      // $malformacions = $request->malformacion;
 
 
-      $cuentaMF = count($malformacions);
+      // $cuentaMF = count($malformacions);
 
-      for ($i = 0; $i < $cuentaMF; $i++) {
+      // for ($i = 0; $i < $cuentaMF; $i++) {
 
-        mal_formaciones_has_paciente::create([
-          'paciente_id' => $idPacientes->id,
-          'mal_formacione_id' => $malformacions[$i],
-        ]);
-      }
+      //   mal_formaciones_has_paciente::create([
+      //     'paciente_id' => $idPacientes->id,
+      //     'mal_formacione_id' => $malformacions[$i],
+      //   ]);
+      // }
 
 
       // $idPacientes->otrostoxicos()->sync($otrosToxico);
@@ -232,12 +308,88 @@ class PacientesController extends Controller
 
         otros_sustancias_has_paciente::create([
           'paciente_id' => $idPacientes->id,
-          'otros_toxicos_id' => $otrosToxicos[$i],
+          'farmaco_id' => $otrosToxicos[$i],
         ]);
       }
 
+      //$request['enfemedadC'] enfermedades cronicas
 
-      return redirect()->route('gracias');
+      $enfemedadC = $request['enfemedadC'];
+      $cuentaEC = count($otrosToxicos);
+      for ($i = 0; $i < $cuentaEC; $i++) {
+
+        enfermedad_cronica_paciente::create([
+          'paciente_id' => $idPacientes->id,
+          'enfermedadCronica_id' => $enfemedadC[$i],
+        ]);
+      }
+
+      // Malformaciones pacientes
+
+      $mfg = $request->mfg;
+      // $msnc = $request->msnc;
+      // $mfr = $request->mfr;
+      // $mfc = $request->mfc;
+      // $mfme = $request->mfme;
+      // $mfsr = $request->mfsr;
+
+      $cuentamfg = count($mfg);
+
+        for ($i = 0; $i < $cuentamfg; $i++) {
+  
+          $malformacionID=malformacion_paciente::create([
+            'paciente_id' => $idPacientes->id,
+            'nombremalformacion_id' => $mfg[$i],
+          ]);
+        }
+      //   $cuentamsnc = count($msnc);
+
+      //   for ($i = 0; $i < $cuentamsnc; $i++) {
+  
+      //     $malformacionID=malformacion_paciente::create([
+      //       'paciente_id' => $idPacientes->id,
+      //       'm_s_n_c_id' => $msnc[$i],
+      //     ]);
+      //   }
+      //   $cuentamfr = count($mfr);
+
+      //   for ($i = 0; $i < $cuentamfr; $i++) {
+  
+      //     $malformacionID=malformacion_paciente::create([
+      //       'paciente_id' => $idPacientes->id,
+      //       'm_f_r_id' => $mfr[$i],
+      //     ]);
+      //   }
+      //   $cuentamfc = count($mfc);
+
+      //   for ($i = 0; $i < $cuentamfc; $i++) {
+  
+      //     $malformacionID=malformacion_paciente::create([
+      //       'paciente_id' => $idPacientes->id,
+      //       'm_f_c_id' => $mfc[$i],
+      //     ]);
+      //   }
+      //   $cuentamfme = count($mfme);
+
+      //   for ($i = 0; $i < $cuentamfme; $i++) {
+  
+      //     $malformacionID=malformacion_paciente::create([
+      //       'paciente_id' => $idPacientes->id,
+      //       'm_f_m_e_id' => $mfme[$i],
+      //     ]);
+      //   }
+      //   $cuentamfsr = count($mfsr);
+
+      //   for ($i = 0; $i < $cuentamfsr; $i++) {
+  
+      //     $malformacionID=malformacion_paciente::create([
+      //       'paciente_id' => $idPacientes->id,
+      //       'm_f_s_r_id' => $mfsr[$i],
+      //     ]);
+      //   }
+
+        $pacienteID=$idPacientes->id;
+      return redirect()->route('gracias', compact('pacienteID'));
 
   }
 

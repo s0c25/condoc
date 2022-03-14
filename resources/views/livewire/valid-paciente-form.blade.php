@@ -28,7 +28,7 @@
          <option value='' selected disabled require>Selecciona opción</option>
           <option value={{ $estado_civil[0] }}>Soltera</option>
           <option value={{ $estado_civil[1] }}>Casada</option>
-          <option value={{ $estado_civil[2] }}>Divorsiada</option>
+          <option value={{ $estado_civil[2] }}>Divorciada</option>
           <option value={{ $estado_civil[3] }}>Viuda</option>
 
         </select>

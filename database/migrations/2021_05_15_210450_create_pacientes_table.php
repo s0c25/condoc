@@ -20,13 +20,11 @@ class CreatePacientesTable extends Migration
       $table->string('phone');
       $table->string('ocupacion');
       $table->string('direccion');
-      $table->enum("edoCivil", ["Soltera", "Casada", "Divorsiada","Viuda"]);
+      $table->string('edoCivil');
       $table->string('plantilla');
       $table->biginteger('cedula');
       $table->biginteger('id_estado');
       $table->biginteger('id_ciudad');
-      $table->biginteger('id_enfermedadCronica')->unsigned();
-      $table->foreign('id_enfermedadCronica')->references('id')->on('enfermedad_cronicas')->nullable();
       $table->biginteger('id_biopsicosociales')->unsigned();
       $table->foreign('id_biopsicosociales')->references('id')->on('biopsicosociales')->nullable();
       $table->bigInteger('id_embarazo')->unsigned();

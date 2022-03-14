@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\malFormacione;
+use App\Models\formaciones;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 
@@ -24,7 +24,7 @@ class MalFormacionComponent extends Component
   public function render()
   {
     return view('livewire.mal-formacion-component', [
-      'malFormacions' => malFormacione::select('name', 'id')
+      'malFormacions' => formaciones::select('name', 'id')
         ->where('name', 'like', '%' . $this->name . '%')
         ->paginate($this->perPage),
     ]);
@@ -32,7 +32,7 @@ class MalFormacionComponent extends Component
 
   public function destroy($id)
   {
-    malFormacione::destroy($id);
+    formaciones::destroy($id);
     $this->name = '';
     session()->flash('message', 'Eliminado con Exito');
   }
@@ -45,13 +45,13 @@ class MalFormacionComponent extends Component
   public function add()
   {
     $this->validate();
-    malFormacione::create([
+    formaciones::create([
       'name' => $this->name,
+      'descripcion'=> $this->name,
     ]);
     $this->name = '';
-    session()->flash('message', 'Agregado con Exito');
 
-    $this->alert('success', 'Hello!', [
+    $this->alert('success', 'Agregado con Exito!', [
       'position' => 'center',
       'timer' => 3000,
       'toast' => true,

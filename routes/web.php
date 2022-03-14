@@ -20,10 +20,11 @@ Route::get('/', function () {
 });
 
 
-
 Route::group(['middleware' => 'auth'], function () {
   Route::view('/gracias', 'error.gracias')->name('gracias');
   Route::view('/vista-previa', 'error.basico')->name('vista-previa');
+  Route::view('/ttfabiola', 'ttfabiola')->name('ttfabiola');
+
 
   // Route::get('/nuevoPaciente2', function () {
   //   return view('pacientes');
@@ -31,7 +32,10 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/nuevos-pacientes', function () {
     return view('hola');
   })->name('nuevoPaciente');
+  Route::post('/esta-report', [PacientesController::class, 'pdfadd'])->name('pdfadd');
+  Route::post('/pdfcreate', [PacientesController::class, 'pdfcreate'])->name('pdfcreate');
 
+  
   Route::get('/pacientes/ver/{paciente}', [PacientesController::class, 'show'])->name('verPaciente');
   Route::post('/nuevos-pacientes/crear', [PacientesController::class, 'store'])->name('addPaciente');
 

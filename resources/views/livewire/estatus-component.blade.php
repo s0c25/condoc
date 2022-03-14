@@ -5,13 +5,15 @@
       {{-- Enfermedad Cronica --}}
       <div class="col-span-6 sm:col-span-3 lg:col-span-2">
         <label for="enfemedadC" class="font-semibold text-gray-700 block pb-1">Enfermedad Cronica</label>
-        <select id="enfemedadC" name="enfemedadC" wire:model="enfemedadC" autocomplete="enfemedadC" class="mt-1 block w-full py-2 px-3 border border-gray-300 
-         bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-         <option value='' selected disabled require>Selecciona opción</option>
+
+        <select class="form-multiselect block w-full" multiple id="my-multiselect"
+         wire:model="enfemedadC" required name="enfemedadC[]">
+          <option value='' selected disabled require>Selecciona opción</option>
           @foreach ($cronica as $cronic)
           <option value={{ $cronic->id }}>{{ $cronic->name }}</option>
           @endforeach
         </select>
+
         @error('cronica')
         <p class="text-sm text-red-600">{{ $message }}</p>
         @enderror
@@ -162,18 +164,15 @@ c0.27-0.268,0.707-0.268,0.979,0l7.908,7.83c0.27,0.268,0.27,0.701,0,0.969c-0.271,
         @enderror
       </div>
 
-      {{-- Otros
-            Tipos de
-            Sustanciass --}}
+      {{-- farmacos teratogenicos --}}
 
       <div class="col-span-6 sm:col-span-3 lg:col-span-2">
         <label for="otro" class="font-semibold text-gray-700 block pb-1">Otros
-          Tipos de
-          Sustancias</label>
+        Farmacos Teratogenicos</label>
 
         <select class="form-multiselect block w-full" multiple id="my-multiselect"   name="otro[]" wire:model="otro" required>
         <option value='' selected disabled required>Selecciona opción</option>
-          @foreach ($toxicos as $toxico)
+          @foreach ($farmacos as $toxico)
           <option value={{ $toxico->id }}>{{ $toxico->name }}</option>
           @endforeach
         </select>

@@ -10,7 +10,7 @@ class otros_sustancias_has_paciente extends Model
     use HasFactory;
 
     protected $fillable = [
-      'otros_toxicos_id',
+      'farmaco_id',
       'paciente_id',
     ];
 }

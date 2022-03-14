@@ -15,7 +15,8 @@ class CreateOtrosSustanciasHasPacientesTable extends Migration
   {
     Schema::create('otros_sustancias_has_pacientes', function (Blueprint $table) {
       $table->id();
-      $table->bigInteger('otros_toxicos_id');
+      $table->bigInteger('farmaco_id')->unsigned();
+      $table->foreign('farmaco_id')->references('id')->on('farmacos')->nullable();
       $table->bigInteger('paciente_id')->unsigned();
       $table->foreign('paciente_id')->references('id')->on('pacientes')->nullable();
       $table->timestamps();

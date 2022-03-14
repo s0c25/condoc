@@ -28,55 +28,20 @@ class BuscadorComponent extends Component
   public function render()
   {
 
-    $cantidadMalformacioness = Paciente::where('pacientes.cedula', $this->paciente)
-      ->join('mal_formaciones_has_pacientes as MFF', 'pacientes.id', '=', 'MFF.paciente_id')
-      ->join('mal_formaciones as MF', 'MF.id', '=', 'MFF.id')
-      ->select('MF.name')
-      ->get();
-
-        $this->cantMalformacion = $cantidadMalformacioness->count();
-
-
-
     return view('livewire.buscador-component', [
       'pacientes' => Paciente::select(
         'pacientes.name as name',
         'pacientes.lastname as lastname',
         'pacientes.edad as edad',
-        'pacientes.id as id'
+        'pacientes.id as id',
+        'pacientes.created_at as created_at'
+
       )
-        ->join('mal_formaciones_has_pacientes as MFF', 'pacientes.id', '=', 'MFF.paciente_id')
         ->where('pacientes.cedula', 'like', '%' . $this->paciente . '%')
-        ->where('MFF.mal_formacione_id', '=', $this->malformaciones)
+        // ->ORwhere('MFF.mal_formacione_id', '=', $this->malformaciones)
         ->paginate($this->perPage)
     ]);
 
-    // $hola=Paciente::select(
-    //   'pacientes.name as name', 
-    //   'pacientes.lastname as lastname', 
-    //   'pacientes.edad as edad', 
-    //   'mfp.id as id'
-    //   )
-    //     ->LEFTJOIN('mal_formaciones_has_pacientes AS mfp', 'pacientes.id', '=', 'mfp.mal_formacione_id')
-    //     ->LEFTJOIN('mal_formaciones AS mf', 'mf.id', '=', 'mfp.mal_formacione_id')
-    //     ->where('paciente_id','mfp.mal_formacione_id')
-    //     ->get();
-
-    //   $hola1=mal_formaciones_has_paciente::where('paciente_id','1')->select('mal_formacione_id')->get();
-
-    //   dd($hola);
-    // ->where('cedula', 'like', '%'.$this->paciente.'%')
-    // ->paginate($this->perPage)
-
-
-
-    // return view('livewire.buscador-component', [
-    //     'pacientes' => Consulta::select('P.name as name', 'P.lastname as lastname', 'P.created_at as pvisita', 'consultas.end_at as uvisita', 'E.name as status', 'consultas.id_paciente as id')
-    //     ->LEFTJOIN('pacientes AS P', 'consultas.id_paciente', '=', 'P.id')
-    //     ->LEFTJOIN('estatus AS E', 'consultas.id_estatu', '=', 'E.id')
-    //     ->where('cedula', 'like', '%'.$this->paciente.'%')
-    //     ->paginate($this->perPage),
-    // ]);
 
   }
 

@@ -1,13 +1,7 @@
 <div class="bg-gray-800 rounded-lg">
     <div class="my-2 flex sm:flex-row flex-col pt-5 mx-5">
         <div class="block relative ">
-            @if (session()->has('message'))
-                <div x-data="{ show: true }"
-                    x-init="() => {setTimeout(() => show = true, 500);setTimeout(() => show = false, 5000); }"
-                    x-show="show">
-                    <x-success-message></x-success-message>
-                </div>
-            @endif
+          
             <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
                 <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current text-gray-500">
                     <path
@@ -19,8 +13,13 @@
             <input placeholder="Falta pie" type="text"
                 class="appearance-none rounded-lg sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
                 wire:model="name" name="name" />
-
+               
         </div>
+        <a onclick="Livewire.emit('openModal', 'crear-enfer')" class="bg-blue-600 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded inline-flex items-center" title="Crear enfermedades y asociar">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </a>
 
     </div>
     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">

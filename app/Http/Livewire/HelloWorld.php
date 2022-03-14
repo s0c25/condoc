@@ -15,8 +15,11 @@ use App\Models\Droga;
 use App\Models\drogas_has_paciente;
 use App\Models\Ginecoobstetrico;
 use App\Models\Embarazo;
+use App\Models\enfermedad_cronica_paciente;
 use App\Models\mal_formaciones_has_paciente;
 use App\Models\Estatu;
+use App\Models\Frecuencia;
+use App\Models\malformacion_paciente;
 use Illuminate\Support\Facades\Storage;
 
 class HelloWorld extends ModalComponent
@@ -60,17 +63,15 @@ class HelloWorld extends ModalComponent
     $this->ciudadEstadp = $estado->name . ', ' .$ciudad->name;
 
     $frecuencias=Biopsicosociales::find($pacientes->id_biopsicosociales);
-    $this->tabaco=$frecuencias->tabaco;
-    $this->alcohol=$frecuencias->alcohol;
+    $tabaquito=Frecuencia::find($frecuencias->tabaco);
+    $alcohol=Frecuencia::find($frecuencias->alcohol);
+    $this->tabaco=$tabaquito->name;
+    $this->alcohol=$alcohol->name;
     $this->observacion=$frecuencias->observacion;
 
-    $frecuencias=Biopsicosociales::find($pacientes->id_biopsicosociales);
-    $this->tabaco=$frecuencias->tabaco;
-    $this->alcohol=$frecuencias->alcohol;
-    $this->observacion=$frecuencias->observacion;
-
-    $enfermedadC = enfermedadCronica::find($pacientes->id_enfermedadCronica);
-    $this->enfemedadC=$enfermedadC->name;
+    $enfermedadC=enfermedad_cronica_paciente::where('paciente_id',$this->paciente_id)
+    ->join('enfermedad_cronicas as Ec','Ec.id','=','enfermedad_cronica_pacientes.enfermedadCronica_id')
+    ->get('Ec.name');
 
     $sustanciasT=sustancias_toxicas_has_paciente::where('paciente_id',$this->paciente_id)
     ->join('sustancias_toxicas as St','St.id','=','sustancias_toxicas_has_pacientes.sustancias_toxica_id')
@@ -79,8 +80,8 @@ class HelloWorld extends ModalComponent
     $this->toxicos=$sustanciasT;
 
     $otross=otros_sustancias_has_paciente::where('paciente_id',$this->paciente_id)
-    ->join('sustancias_toxicas as tt','tt.id','=','otros_sustancias_has_pacientes.otros_toxicos_id')
-    ->get('tt.name');
+    ->join('farmacos as ff','ff.id','=','otros_sustancias_has_pacientes.farmaco_id')
+    ->get('ff.name');
 
     $this->otro=$otross;
 
@@ -111,9 +112,9 @@ class HelloWorld extends ModalComponent
     $this->presentacion=$emabara->presentacion;
     $this->posicion=$emabara->posicion;
 
-    $malforma=mal_formaciones_has_paciente::where('paciente_id',$this->paciente_id)
-    ->join('mal_formaciones as mf','mf.id','=','mal_formaciones_has_pacientes.mal_formacione_id')
-    ->get('mf.name');
+    $malforma=malformacion_paciente::where('paciente_id',$this->paciente_id)
+    ->join('nombremalformacions as nmf','nmf.id','=','malformacion_pacientes.nombremalformacion_id')
+    ->get('nmf.name');
 
     $this->malformacion=$malforma;
 

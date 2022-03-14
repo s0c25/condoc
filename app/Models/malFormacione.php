@@ -11,7 +11,9 @@ class malFormacione extends Model
 
   protected $fillable = [
     'name',
-
+    'id_nombremalformacion',
+    'descripcion',
+    'formacione_id'
   ];
 
   public function pacientes()

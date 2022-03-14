@@ -16,12 +16,8 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('reportes')">
+                    <x-nav-link onclick="Livewire.emit('openModal', 'reportes')">
                         {{ __('Reportes') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('usuarios')">
-                        {{ __('Usuarios') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('condicion')">
@@ -88,6 +84,15 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link onclick="Livewire.emit('openModal', 'reportes')">
+            {{ __('Reportes') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('condicion')" :active="request()->routeIs('condicion')">
+            {{ __('Condiciones') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('malFormacion')" :active="request()->routeIs('malFormacion')">
+            {{ __('Mal Formación') }}
             </x-responsive-nav-link>
         </div>
 

@@ -87,7 +87,14 @@
           <div class="col-span-6 sm:col-span-3 lg:col-span-2">
             <label for="enfemedadC" class="font-semibold text-gray-700 block pb-1">Enfermedad Cronica</label>
 
-            <input id="enfemedadC" readonly class="border-1  rounded-r px-4 py-2 w-full" type="text" name="enfemedadC" wire:model="enfemedadC" required />
+          
+
+            <select readonly class="form-multiselect block w-full" multiple id="my-multiselect" wire:model="enfemedadC" name="enfemedadC[]">
+              @foreach ($otro as $toxico)
+              <option readonly disabled>{{ $toxico->name }}</option>
+              @endforeach
+            </select>
+
           </div>
 
           {{-- Alcohol --}}

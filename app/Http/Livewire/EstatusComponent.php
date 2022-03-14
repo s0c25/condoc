@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\enfermedadCronica;
 use App\Models\Frecuencia;
 use App\Models\Droga;
+use App\Models\farmacos;
 use App\Models\sustanciasToxica;
 use App\Models\malFormacione;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -22,10 +23,10 @@ class EstatusComponent extends Component
    $sustanciastoxicas, $otro, $observacion, $tabaco, $alcohol, 
    $status, $aninfeccion, $gestas, $paras, $abortos, $cesareas, 
    $ee, $etg, $fum, $gestacion, $gestacionpc, $embarazo, $feto, 
-   $situacion, $presentacion, $posicion, $malformacion, $plantilla,$direccion,$edocivil;
+   $situacion, $presentacion,$farmacos, $posicion, $malformacion, $plantilla,$direccion,$edocivil;
 
 protected $rules = [
-  'enfemedadC' => ['required', 'numeric'],
+  'enfemedadC' => ['required'],
   'droga' => ['required'],
   'sustanciastoxicas' => ['required'],
   'otro' => ['required'],
@@ -79,6 +80,7 @@ public function updated($propertyName)
     $this->frecuencias = Frecuencia::all();
     $this->drogas = Droga::all();
     $this->toxicos = sustanciasToxica::all();
+    $this->farmacos = farmacos::all();
     $this->cronica = enfermedadCronica::all();
   }
 

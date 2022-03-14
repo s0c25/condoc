@@ -24,6 +24,8 @@
 
 <body class="font-sans antialiased">
 <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
+<script src="{{ asset('js/alpine.js') }}"></script>
+
 
 <x-livewire-alert::scripts />
     @livewireScripts

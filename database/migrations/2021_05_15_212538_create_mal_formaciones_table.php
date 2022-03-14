@@ -15,7 +15,11 @@ class CreateMalFormacionesTable extends Migration
   {
     Schema::create('mal_formaciones', function (Blueprint $table) {
       $table->id();
-      $table->string('name');
+      $table->string('descripcion');
+      $table->bigInteger('formacione_id')->unsigned();
+      $table->foreign('formacione_id')->references('id')->on('formaciones')->nullable()->onDelete('cascade');
+      $table->bigInteger('id_nombremalformacion')->unsigned();
+      $table->foreign('id_nombremalformacion')->references('id')->on('nombremalformacions')->nullable();
       $table->timestamps();
     });
   }
